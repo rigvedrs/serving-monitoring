@@ -18,6 +18,8 @@ services:
       - "8002:8002"  # for reporting metrics
     volumes:
       - ./models:/models  # Mount models directory
+    networks:
+      - production_net
 
   streamlit:
     build:
@@ -28,9 +30,15 @@ services:
       - "8501:8501"  # Map host 8501 to container 8501
     depends_on:
       - triton_server
+      - minio
     environment:
       - TRITON_SERVER_URL=triton_server:8000
       - CHEST_XRAY_MODEL_NAME=chest_xray_detector
+      - MINIO_URL=http://minio:9000
+      - MINIO_ROOT_USER=PROSadmin19
+      - MINIO_ROOT_PASSWORD=PROSadmin19
+    networks:
+      - production_net
 
   prometheus:
     image: prom/prometheus:latest
@@ -39,6 +47,8 @@ services:
       - "9090:9090"
     volumes:
       - ./Monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - production_net
 
   grafana:
     image: grafana/grafana:latest
@@ -50,6 +60,8 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - production_net
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
@@ -65,6 +77,8 @@ services:
     devices:
       - /dev/kmsg
     privileged: true
+    networks:
+      - production_net
 
   minio:
     image: minio/minio
