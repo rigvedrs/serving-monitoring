@@ -111,12 +111,12 @@ services:
       - production_net
 
   label-studio:
-    image: heartexlabs/label-studio:1.16.0
+    image: heartexlabs/label-studio:latest
     container_name: label-studio
     ports:
       - "5050:8080"
     volumes:
-      - /home/cc/serving-monitoring/serving/serving_onnx/scripts:/label-studio/scripts
+      - /home/cc/serving-monitoring/serving/serving_onnx/Monitoring/label_studio_scripts:/label-studio/scripts
     environment:
       - LABEL_STUDIO_URL=http://label-studio:8080
       - LABEL_STUDIO_USERNAME=labelstudio@example.com
@@ -127,6 +127,8 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=appdb
+    command: >
+      sh -c "python /label-studio/scripts/label_studio_init.py && label-studio start"
     networks:
       - production_net
 
@@ -139,6 +141,8 @@ services:
       - "8888:8888"
     # volumes:
     #   - /home/cc/serving-monitoring/serving_onnx/workspace:/home/jovyan/workspace  # mount workspace
+    networks:
+      - production_net
 
 networks:
   production_net:
