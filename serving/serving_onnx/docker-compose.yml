@@ -12,6 +12,12 @@ services:
     #         - driver: nvidia
     #           count: all
     #           capabilities: [gpu]
+    deploy:
+      resources:
+        limits:
+          memory: 4G  # Set an appropriate value based on your system
+        reservations:
+          memory: 2G  # Minimum memory needed
     ports:
       - "8000:8000"  # for HTTP requests
       - "8001:8001"  # for GRPC requests
@@ -20,6 +26,8 @@ services:
       - ./models:/models  # Mount models directory
     networks:
       - production_net
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=void
 
   streamlit:
     build:
