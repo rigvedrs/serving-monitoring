@@ -5,13 +5,13 @@ services:
       context: /home/cc/serving-monitoring/serving/serving_onnx
       dockerfile: docker/Dockerfile.triton
     container_name: triton_server
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
     ports:
       - "8000:8000"  # for HTTP requests
       - "8001:8001"  # for GRPC requests
@@ -127,8 +127,8 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=appdb
-    command: >
-      sh -c "python /label-studio/scripts/label_studio_init.py && label-studio start"
+    # command: >
+    #   sh -c "label-studio start & sleep 30 && python /label-studio/scripts/label_studio_init.py && tail -f /dev/null"
     networks:
       - production_net
 
