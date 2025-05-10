@@ -88,47 +88,48 @@ if uploaded_file is not None:
     # Process image when button is clicked
     if st.button("Detect"):
         try:
-            st.info(f"Connecting to Triton Server at: http://{server_url}/{model_name}")
-            
-            # Load the Triton Server model
-            model = YOLO(f"http://{server_url}/{model_name}", task="detect")
-            
-            # Run inference
-            start_time = time.time()
-            results = model(temp_path)
-            inference_time = time.time() - start_time
-            
-            # Display results
-            st.success(f"Detection completed in {inference_time:.4f} seconds")
-            
-            # Extract predictions and confidences
-            predictions = []
-            confidences = []
-            for result in results:
-                # Using the built-in plotting from YOLO results
-                result_img = result.plot()
-                result_img_bgr = cv2.cvtColor(result_img, cv2.COLOR_RGB2BGR)
-                st.image(result_img_bgr, caption="Detection Results")
+            with st.spinner("Running inference..."):
+                st.info(f"Connecting to Triton Server at: http://{server_url}/{model_name}")
                 
-                # Show the detection details
-                boxes = result.boxes
-                if len(boxes) > 0:
-                    st.write(f"Found {len(boxes)} detections:")
-                    for i, box in enumerate(boxes):
-                        cls = int(box.cls[0])
-                        conf = float(box.conf[0])
-                        label = result.names[cls]
-                        predictions.append(label)
-                        confidences.append(conf)
-                        st.write(f"- Detection {i+1}: {label} (Confidence: {conf:.3f})")
-                else:
-                    st.write("No detections found.")
-                    predictions.append("None")
-                    confidences.append(0.0)
-            
-            # Save to MinIO asynchronously
-            prediction_id = str(uuid.uuid4())
-            executor.submit(upload_to_minio, temp_path, predictions, confidences, prediction_id)
+                # Load the Triton Server model
+                model = YOLO(f"http://{server_url}/{model_name}", task="detect")
+                
+                # Run inference
+                start_time = time.time()
+                results = model(temp_path)
+                inference_time = time.time() - start_time
+                
+                # Display results
+                st.success(f"Detection completed in {inference_time:.4f} seconds")
+                
+                # Extract predictions and confidences
+                predictions = []
+                confidences = []
+                for result in results:
+                    # Using the built-in plotting from YOLO results
+                    result_img = result.plot()
+                    result_img_bgr = cv2.cvtColor(result_img, cv2.COLOR_RGB2BGR)
+                    st.image(result_img_bgr, caption="Detection Results")
+                    
+                    # Show the detection details
+                    boxes = result.boxes
+                    if len(boxes) > 0:
+                        st.write(f"Found {len(boxes)} detections:")
+                        for i, box in enumerate(boxes):
+                            cls = int(box.cls[0])
+                            conf = float(box.conf[0])
+                            label = result.names[cls]
+                            predictions.append(label)
+                            confidences.append(conf)
+                            st.write(f"- Detection {i+1}: {label} (Confidence: {conf:.3f})")
+                    else:
+                        st.write("No detections found.")
+                        predictions.append("None")
+                        confidences.append(0.0)
+                
+                # Save to MinIO asynchronously
+                prediction_id = str(uuid.uuid4())
+                executor.submit(upload_to_minio, temp_path, predictions, confidences, prediction_id)
         
         except Exception as e:
             import traceback
