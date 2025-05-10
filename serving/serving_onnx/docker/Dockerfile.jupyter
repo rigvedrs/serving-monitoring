@@ -23,10 +23,14 @@ RUN pip install --no-cache-dir \
     numpy \
     matplotlib
 
-COPY ./workspace/ /home/jovyan/work/
+# COPY ./workspace/ /home/jovyan/work/
 
 # Install bash kernel
 RUN python -m bash_kernel.install
+
+# Fix permissions for the work directory
+RUN mkdir -p /home/jovyan/work && \
+    fix-permissions /home/jovyan/work
 
 # Set working directory
 WORKDIR "${HOME}/"
