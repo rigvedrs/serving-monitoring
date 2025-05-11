@@ -1,18 +1,19 @@
 name: "chest_xray_detector"
-platform: "onnxruntime_onnx"
+backend: "openvino" 
+default_model_filename: "model.onnx"
 max_batch_size: 1
 input [
   {
     name: "images"
     data_type: TYPE_FP32
-    dims: [3, -1, -1]
+    dims: [3, 640, 640]
   }
 ]
 output [
   {
     name: "output0"
     data_type: TYPE_FP32
-    dims: [84, -1]
+    dims: [19,8400]
   }
 ]
 instance_group [
