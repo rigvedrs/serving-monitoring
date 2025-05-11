@@ -22,7 +22,8 @@ RUN pip install --no-cache-dir \
     pillow \
     numpy \
     matplotlib \ 
-    boto3
+    boto3 \
+    label-studio-sdk
 
 # COPY ./workspace/ /home/jovyan/work/
 
