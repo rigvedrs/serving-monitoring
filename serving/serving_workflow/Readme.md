@@ -1,0 +1,1 @@
+docker compose -f serving-monitoring/serving/serving_workflow/docker-compose.yml up -d
