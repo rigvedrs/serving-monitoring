@@ -21,7 +21,8 @@ RUN pip install --no-cache-dir \
     opencv-python-headless \
     pillow \
     numpy \
-    matplotlib
+    matplotlib \ 
+    boto3
 
 # COPY ./workspace/ /home/jovyan/work/
 
