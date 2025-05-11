@@ -18,7 +18,7 @@ MODEL_NAME = os.getenv("CHEST_XRAY_MODEL_NAME", "chest_xray_detector")
 MINIO_URL = os.getenv("MINIO_URL", "http://minio:9000")
 MINIO_ACCESS_KEY = os.getenv("MINIO_ROOT_USER", "PROSadmin19")
 MINIO_SECRET_KEY = os.getenv("MINIO_ROOT_PASSWORD", "PROSadmin19")
-BUCKET_NAME = "production"
+BUCKET_NAME = os.getenv("BUCKET_NAME", "production")
 
 # Initialize MinIO client
 s3 = boto3.client(
@@ -161,6 +161,24 @@ if uploaded_file is not None:
         finally:
             os.unlink(temp_path)
 
+CLASS_TO_DISEASE_MAPPING = {
+    'class0': 'Aortic enlargement',
+    'class1': 'Atelectasis',
+    'class2': 'Calcification',
+    'class3': 'Cardiomegaly',
+    'class4': 'Consolidation',
+    'class5': 'ILD',
+    'class6': 'Infiltration',
+    'class7': 'Lung Opacity',
+    'class8': 'Nodule/Mass',
+    'class9': 'Other lesion',
+    'class10': 'Pleural effusion',
+    'class11': 'Pleural thickening',
+    'class12': 'Pneumothorax',
+    'class13': 'Pulmonary fibrosis',
+    'class14': 'No finding'
+}
+
 # Display detection results and result images from session state
 if st.session_state.detection_results is not None:
     # Display stored result images
@@ -169,7 +187,7 @@ if st.session_state.detection_results is not None:
 
     # Display detection labels and confidences
     for i, (label, conf) in enumerate(zip(st.session_state.predictions, st.session_state.confidences)):
-        st.write(f"- Detection {i+1}: {label} (Confidence: {conf:.3f})")
+        st.write(f"- Detection {i+1}: {CLASS_TO_DISEASE_MAPPING.get(label, label)} (Confidence: {conf:.3f})")
     
     # Display a single Flag button if s3_key exists
     if st.session_state.s3_key and st.button("Flag Image", key=f"flag_{st.session_state.s3_key}"):
