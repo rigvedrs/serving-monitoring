@@ -1,0 +1,23 @@
+name: "drift_postprocessor"
+backend: "python"
+max_batch_size: 1
+input [
+  {
+    name: "output0"
+    data_type: TYPE_FP32
+    dims: [19, 8400]
+  }
+]
+output [
+  {
+    name: "output0"  # Same name as YOLO model output
+    data_type: TYPE_FP32
+    dims: [19, 8400]
+  }
+]
+instance_group [
+  {
+    count: 1
+    kind: KIND_CPU
+  }
+]

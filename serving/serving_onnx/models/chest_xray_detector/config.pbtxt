@@ -1,24 +1,46 @@
 name: "chest_xray_detector"
-backend: "openvino" 
+backend: "openvino"
 default_model_filename: "model.onnx"
-max_batch_size: 1
+max_batch_size: 0
 input [
   {
     name: "images"
     data_type: TYPE_FP32
-    dims: [3, 640, 640]
+    dims: [1,3, 640, 640]
   }
 ]
 output [
   {
     name: "output0"
     data_type: TYPE_FP32
-    dims: [19,8400]
+    dims: [1,19, 8400]
   }
 ]
 instance_group [
   {
     count: 1
     kind: KIND_CPU
+  }
+]
+parameters [
+  {
+    key: "CPU_EXTENSION_PATH"
+    value: { string_value: "" }  # Empty if no custom extensions
+  },
+  {
+    key: "INFERENCE_NUM_THREADS"
+    value: { string_value: "4" }
+  },
+  {
+    key: "SKIP_OV_DYNAMIC_BATCHSIZE"
+    value: { string_value: "true" }
+  },
+  {
+    key: "ENABLE_BATCH_PADDING"
+    value: { string_value: "false" }
+  },
+  {
+    key: "RESHAPE_IO_LAYERS"
+    value: { string_value: "false" }
   }
 ]

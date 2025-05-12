@@ -1,0 +1,69 @@
+name: "chest_xray_detector_ensemble"
+platform: "ensemble"
+max_batch_size: 1
+input [
+  {
+    name: "images"
+    data_type: TYPE_FP32
+    dims: [3, 640, 640]
+  }
+]
+output [
+  {
+    name: "output0"
+    data_type: TYPE_FP32
+    dims: [19, 8400]
+  }
+]
+ensemble_scheduling {
+  step [
+    {
+      model_name: "drift_preprocessor"
+      model_version: -1
+      input_map [
+        {
+          key: "images"
+          value: "images"
+        }
+      ]
+      output_map [
+        {
+          key: "preprocessed_images"
+          value: "preprocessed_images"
+        }
+      ]
+    },
+    {
+      model_name: "chest_xray_detector"
+      model_version: -1
+      input_map [
+        {
+          key: "images"
+          value: "preprocessed_images"
+        }
+      ]
+      output_map [
+        {
+          key: "output0"
+          value: "yolo_output"  # Unique intermediate tensor name
+        }
+      ]
+    },
+    {
+      model_name: "drift_postprocessor"
+      model_version: -1
+      input_map [
+        {
+          key: "output0"
+          value: "yolo_output"  # Matches chest_xray_detector output
+        }
+      ]
+      output_map [
+        {
+          key: "output0"
+          value: "output0"  # Maps to final ensemble output
+        }
+      ]
+    }
+  ]
+}
