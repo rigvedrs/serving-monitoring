@@ -15,11 +15,4 @@ git lfs install
 echo "Pulling LFS-tracked files..."
 git lfs pull
 
-# Add Docker 
-echo "Adding Docker repository..."
-curl -sSL https://get.docker.com/ | sudo sh
-
-echo "Installing Docker..."
-sudo groupadd -f docker; sudo usermod -aG docker $USER
-
 echo "Done."

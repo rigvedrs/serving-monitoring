@@ -21,6 +21,9 @@ services:
       - production_net
     environment:
       - NVIDIA_VISIBLE_DEVICES=void
+      - MLFLOW_TRACKING_URI=http://129.114.26.124:8000  # Set your MLflow server IP here
+      - MODEL_NAME=yolo12n
+      # - MODEL_ALIAS=production  # Optional: Remove if not using aliases
 
   streamlit:
     build:
@@ -42,7 +45,6 @@ services:
       - BUCKET_NAME=production
     networks:
       - production_net
-
 
 networks:
   production_net:

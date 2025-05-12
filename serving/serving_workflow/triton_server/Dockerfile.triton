@@ -10,13 +10,19 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir \
     pillow \
-    onnxruntime
+    onnxruntime \
+    mlflow \
+    tenacity
 
 # Expose Triton ports
 EXPOSE 8000 8001 8002
 
-# Copy the model repository into the container
+# Copy the model repository structure (but we'll download models at runtime)
 COPY models /models
 
-# Start Triton server with the model repository
-CMD ["tritonserver", "--model-repository=/models"]
+# Copy the startup script
+COPY model_loader.py /model_loader.py
+RUN chmod +x /model_loader.py
+
+# Start using our loader script instead of direct tritonserver command
+ENTRYPOINT ["python", "/model_loader.py"]
