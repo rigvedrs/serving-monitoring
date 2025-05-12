@@ -17,6 +17,7 @@ services:
       - "8002:8002"  # for reporting metrics
     volumes:
       - ./triton_server/models:/models  # Mount models directory
+      # - ./triton_server/:/app
     networks:
       - production_net
     environment:

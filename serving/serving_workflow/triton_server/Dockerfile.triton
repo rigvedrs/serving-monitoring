@@ -7,12 +7,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install necessary dependencies
+RUN apt-get update && apt-get install -y python3 python3-pip \
+    && ln -s /usr/bin/python3 /usr/bin/python
 RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
-RUN pip install --no-cache-dir \
-    pillow \
-    onnxruntime \
-    mlflow \
-    tenacity
+RUN pip install --no-cache-dir pillow
+RUN pip install --no-cache-dir onnxruntime
+RUN pip install --no-cache-dir mlflow-skinny
+RUN pip install --no-cache-dir tenacity
+
 
 # Expose Triton ports
 EXPOSE 8000 8001 8002
