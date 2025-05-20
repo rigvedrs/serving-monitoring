@@ -32,24 +32,7 @@ The system maintains the radiologist as the ultimate decision-maker while provid
 	 - This approach allows us to estimate potential improvements in pathology detection without requiring clinical deployment.
 	
 	 - For "reduced interpretation time," we would define a measurement plan for future implementation in a production environment, comparing baseline reading times against AI-assisted reading times.
-	 - We recognize that in practice, studies have shown radiologists sometimes ignore AI assistance and sometimes trust it too much even when incorrect. Our evaluation considers whether our system provides genuine improvement over the status quo of human-only interpretation.
-
-## Contributors
-
-<!-- Table of contributors and their roles. 
-First row: define responsibilities that are shared by the team. 
-Then, each row after that is: name of contributor, their role, and in the third column, 
-you will link to their contributions. If your project involves multiple repos, you will 
-link to their contributions in all repos here. -->
-
-
-| Name                            | Responsible for | Link to their commits in this repo |
-|---------------------------------|-----------------|------------------------------------|
-| All team members                | System Diagram, Planning |                                    |
-| Prashant Shihora                   | Continuous X pipeline | [Commits](https://github.com/theomthakur/ece-gy-9183-group19/commits/main/README.md?author=Mario928)                                   |
-| Rigved Shirvalkar                   | Model Serving and Monitoring | [Commits](https://github.com/theomthakur/ece-gy-9183-group19/commits/main/README.md?author=rigvedrs)                                    |
-| Om Thakur               | Data Pipeline | [Commits](https://github.com/theomthakur/ece-gy-9183-group19/commits/main/README.md?author=theomthakur)                                   |
-| Sohith Bandari | Model Training    | [Commits](https://github.com/theomthakur/ece-gy-9183-group19/commits/main/README.md?author=Billa-Man)                                   |
+	 - We recognize that in practice, studies have shown radiologists sometimes ignore AI assistance and sometimes trust it too much even when incorrect. Our evaluation considers whether our system provides genuine improvement over the status quo of human-only interpretation.                                 |
 
 
 
