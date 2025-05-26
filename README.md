@@ -1,4 +1,4 @@
-# ECE-GY-9183 - GROUP 19 - Chest X-ray Abnormality Detection System for Radiology Departments
+# Chest X-ray Abnormality Detection System for Radiology Departments
 
 ## Value Proposition
 
