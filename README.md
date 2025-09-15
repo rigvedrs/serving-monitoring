@@ -48,6 +48,8 @@ This system provides production-ready serving and monitoring infrastructure for 
 
 ## 🏗️ System Architecture
 
+![System Design](systemdesign.png)
+
 ### Model Serving Infrastructure
 
 **API Framework**
