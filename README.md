@@ -167,5 +167,3 @@ This system provides production-ready serving and monitoring infrastructure for 
 This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. 
 
 Individual dependencies maintain their respective licensing terms as detailed in the technology stack table above. Please review each component's license requirements before deployment in commercial environments.
-
----
